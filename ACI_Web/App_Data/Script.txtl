@@ -1,0 +1,127 @@
+﻿USE [PetCenter]
+GO
+/****** Object:  Table [dbo].[ACI_Chip]    Script Date: 10/02/2016 14:02:03 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+SET ANSI_PADDING ON
+GO
+CREATE TABLE [dbo].[ACI_Chip](
+	[idChip] [int] NOT NULL,
+	[nombreChip] [varchar](50) NOT NULL,
+	[estado] [varchar](50) NULL,
+ CONSTRAINT [PK_ACI_Chip] PRIMARY KEY CLUSTERED 
+(
+	[idChip] ASC
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+SET ANSI_PADDING OFF
+GO
+/****** Object:  Table [dbo].[ACI_Cliente]    Script Date: 10/02/2016 14:02:03 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+SET ANSI_PADDING ON
+GO
+CREATE TABLE [dbo].[ACI_Cliente](
+	[idCliente] [int] NOT NULL,
+	[nombreCliente] [varchar](50) NOT NULL,
+	[apellidoPaternoCliente] [varchar](50) NOT NULL,
+	[apellidoMaternoCliente] [varchar](50) NOT NULL,
+	[dniCliente] [varchar](8) NOT NULL,
+ CONSTRAINT [PK_ACI_Cliente] PRIMARY KEY CLUSTERED 
+(
+	[idCliente] ASC
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+SET ANSI_PADDING OFF
+GO
+/****** Object:  Table [dbo].[ACI_Paciente]    Script Date: 10/02/2016 14:02:03 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+SET ANSI_PADDING ON
+GO
+CREATE TABLE [dbo].[ACI_Paciente](
+	[idPaciente] [int] NOT NULL,
+	[idCliente] [int] NOT NULL,
+	[nombrePaciente] [varchar](50) NOT NULL,
+	[fechaNacimientoPaciente] [date] NOT NULL,
+	[edadPaciente] [int] NOT NULL,
+	[tipoPaciente] [varchar](50) NOT NULL,
+	[razaPaciente] [varchar](50) NOT NULL,
+ CONSTRAINT [PK_ACI_Paciente] PRIMARY KEY CLUSTERED 
+(
+	[idPaciente] ASC
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+SET ANSI_PADDING OFF
+GO
+/****** Object:  Table [dbo].[ACI_OrdenAtencion]    Script Date: 10/02/2016 14:02:03 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+SET ANSI_PADDING ON
+GO
+CREATE TABLE [dbo].[ACI_OrdenAtencion](
+	[idOrdenAtencion] [int] NOT NULL,
+	[idPaciente] [int] NOT NULL,
+	[estadoAtencion] [varchar](50) NOT NULL,
+	[fechaOrdenAtencion] [date] NOT NULL,
+	[observaciones] [varchar](100) NULL,
+	[chipImplantado] [bit] NOT NULL,
+	[motivoImplantacion] [varchar](50) NOT NULL,
+ CONSTRAINT [PK_ACI_OrdenAtencion] PRIMARY KEY CLUSTERED 
+(
+	[idOrdenAtencion] ASC
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+SET ANSI_PADDING OFF
+GO
+/****** Object:  Table [dbo].[ACI_Chip_OrdenAtencion]    Script Date: 10/02/2016 14:02:03 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[ACI_Chip_OrdenAtencion](
+	[idChipOrdenAtencion] [int] NOT NULL,
+	[idOrdenAtencion] [int] NOT NULL,
+	[idChip] [int] NOT NULL,
+ CONSTRAINT [PK_ACI_Chip_OrdenAtencion] PRIMARY KEY CLUSTERED 
+(
+	[idChipOrdenAtencion] ASC
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  ForeignKey [FK_ACI_Chip_OrdenAtencion_ACI_Chip]    Script Date: 10/02/2016 14:02:03 ******/
+ALTER TABLE [dbo].[ACI_Chip_OrdenAtencion]  WITH CHECK ADD  CONSTRAINT [FK_ACI_Chip_OrdenAtencion_ACI_Chip] FOREIGN KEY([idChip])
+REFERENCES [dbo].[ACI_Chip] ([idChip])
+GO
+ALTER TABLE [dbo].[ACI_Chip_OrdenAtencion] CHECK CONSTRAINT [FK_ACI_Chip_OrdenAtencion_ACI_Chip]
+GO
+/****** Object:  ForeignKey [FK_ACI_Chip_OrdenAtencion_ACI_OrdenAtencion]    Script Date: 10/02/2016 14:02:03 ******/
+ALTER TABLE [dbo].[ACI_Chip_OrdenAtencion]  WITH CHECK ADD  CONSTRAINT [FK_ACI_Chip_OrdenAtencion_ACI_OrdenAtencion] FOREIGN KEY([idOrdenAtencion])
+REFERENCES [dbo].[ACI_OrdenAtencion] ([idOrdenAtencion])
+GO
+ALTER TABLE [dbo].[ACI_Chip_OrdenAtencion] CHECK CONSTRAINT [FK_ACI_Chip_OrdenAtencion_ACI_OrdenAtencion]
+GO
+/****** Object:  ForeignKey [FK_ACI_OrdenAtencion_ACI_Paciente]    Script Date: 10/02/2016 14:02:03 ******/
+ALTER TABLE [dbo].[ACI_OrdenAtencion]  WITH CHECK ADD  CONSTRAINT [FK_ACI_OrdenAtencion_ACI_Paciente] FOREIGN KEY([idPaciente])
+REFERENCES [dbo].[ACI_Paciente] ([idPaciente])
+GO
+ALTER TABLE [dbo].[ACI_OrdenAtencion] CHECK CONSTRAINT [FK_ACI_OrdenAtencion_ACI_Paciente]
+GO
+/****** Object:  ForeignKey [FK_ACI_Paciente_ACI_Cliente]    Script Date: 10/02/2016 14:02:03 ******/
+ALTER TABLE [dbo].[ACI_Paciente]  WITH CHECK ADD  CONSTRAINT [FK_ACI_Paciente_ACI_Cliente] FOREIGN KEY([idCliente])
+REFERENCES [dbo].[ACI_Cliente] ([idCliente])
+GO
+ALTER TABLE [dbo].[ACI_Paciente] CHECK CONSTRAINT [FK_ACI_Paciente_ACI_Cliente]
+GO

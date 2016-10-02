@@ -167,6 +167,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <None Include="App_Data\Script.txtl" />
     <Content Include="Content\bootstrap-reset.css" />
     <Content Include="Content\bootstrap-responsive.css" />
     <Content Include="Content\bootstrap-responsive.min.css" />
@@ -358,9 +359,7 @@
     <Content Include="Views\RegistroEscaneo\DetalleOrdenAtencion.cshtml" />
     <Content Include="Views\AsignacionOrdenAtencion\Busqueda.cshtml" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="App_Data\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="packages.config" />
   </ItemGroup>
