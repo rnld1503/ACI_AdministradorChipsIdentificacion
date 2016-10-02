@@ -1,0 +1,45 @@
+﻿@model System.Collections.Generic.IEnumerable<ACI_Web.Models.ViewModels.Paciente_Cliente>
+
+@{
+    ViewBag.Title = "Resultado de Escaneo";
+    Layout = "~/Views/_Layout.cshtml";
+}
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { id = "onlineform" }))
+{
+    @Html.AntiForgeryToken()
+        
+    <fieldset>
+        <div class="panel panel-primary" style="width: 100%">
+            <div class="panel-heading">Ordenes de Atención</div>
+            <div class="panel-body">
+                <p>
+                </p>
+                <table class="table-bordered table-hover" style="width: 80%; text-align: center">
+                    <thead>
+                        <tr>
+                            <th style="width: 6%">Código</th>
+                            <th style="width: 30%">Nombre del Paciente</th>
+                            <th style="width: 10%">Edad del Paciente</th>
+                            <th style="width: 30%">Nombre del Cliente</th>
+                            <th style="width: 24%">Estado</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in @Model)
+                        {
+                            <tr>
+                                <td><a href="/RegistroEscaneo/DetalleOrdenAtencion/@item.IdOrdenAtencion ">@item.IdOrdenAtencion</a>  </td>
+                                <td>@item.NombrePaciente</td>
+                                <td>@item.EdadPaciente.ToString() Años</td>
+                                <td>@item.NombreCliente </td>
+                                <td>@item.Estado </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </fieldset>
+    
+}

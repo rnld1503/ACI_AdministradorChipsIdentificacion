@@ -1,0 +1,345 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="2.0" xmlns:edmx="http://schemas.microsoft.com/ado/2008/10/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="ACI_Model.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+        <EntityContainer Name="ACI_ModelStoreContainer">
+          <EntitySet Name="ACI_Chip" EntityType="ACI_Model.Store.ACI_Chip" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="ACI_Chip_OrdenAtencion" EntityType="ACI_Model.Store.ACI_Chip_OrdenAtencion" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="ACI_Cliente" EntityType="ACI_Model.Store.ACI_Cliente" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="ACI_OrdenAtencion" EntityType="ACI_Model.Store.ACI_OrdenAtencion" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="ACI_Paciente" EntityType="ACI_Model.Store.ACI_Paciente" store:Type="Tables" Schema="dbo" />
+          <AssociationSet Name="FK_ACI_Chip_OrdenAtencion_ACI_Chip" Association="ACI_Model.Store.FK_ACI_Chip_OrdenAtencion_ACI_Chip">
+            <End Role="ACI_Chip" EntitySet="ACI_Chip" />
+            <End Role="ACI_Chip_OrdenAtencion" EntitySet="ACI_Chip_OrdenAtencion" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ACI_Chip_OrdenAtencion_ACI_OrdenAtencion" Association="ACI_Model.Store.FK_ACI_Chip_OrdenAtencion_ACI_OrdenAtencion">
+            <End Role="ACI_OrdenAtencion" EntitySet="ACI_OrdenAtencion" />
+            <End Role="ACI_Chip_OrdenAtencion" EntitySet="ACI_Chip_OrdenAtencion" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ACI_OrdenAtencion_ACI_Paciente" Association="ACI_Model.Store.FK_ACI_OrdenAtencion_ACI_Paciente">
+            <End Role="ACI_Paciente" EntitySet="ACI_Paciente" />
+            <End Role="ACI_OrdenAtencion" EntitySet="ACI_OrdenAtencion" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ACI_Paciente_ACI_Cliente" Association="ACI_Model.Store.FK_ACI_Paciente_ACI_Cliente">
+            <End Role="ACI_Cliente" EntitySet="ACI_Cliente" />
+            <End Role="ACI_Paciente" EntitySet="ACI_Paciente" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="ACI_Chip">
+          <Key>
+            <PropertyRef Name="idChip" />
+          </Key>
+          <Property Name="idChip" Type="int" Nullable="false" />
+          <Property Name="nombreChip" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="estado" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="ACI_Chip_OrdenAtencion">
+          <Key>
+            <PropertyRef Name="idChipOrdenAtencion" />
+          </Key>
+          <Property Name="idChipOrdenAtencion" Type="int" Nullable="false" />
+          <Property Name="idOrdenAtencion" Type="int" Nullable="false" />
+          <Property Name="idChip" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ACI_Cliente">
+          <Key>
+            <PropertyRef Name="idCliente" />
+          </Key>
+          <Property Name="idCliente" Type="int" Nullable="false" />
+          <Property Name="nombreCliente" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="apellidoPaternoCliente" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="apellidoMaternoCliente" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="dniCliente" Type="varchar" Nullable="false" MaxLength="8" />
+        </EntityType>
+        <EntityType Name="ACI_OrdenAtencion">
+          <Key>
+            <PropertyRef Name="idOrdenAtencion" />
+          </Key>
+          <Property Name="idOrdenAtencion" Type="int" Nullable="false" />
+          <Property Name="idPaciente" Type="int" Nullable="false" />
+          <Property Name="estadoAtencion" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="fechaOrdenAtencion" Type="date" Nullable="false" />
+          <Property Name="observaciones" Type="varchar" MaxLength="100" />
+          <Property Name="chipImplantado" Type="bit" Nullable="false" />
+          <Property Name="motivoImplantacion" Type="varchar" Nullable="false" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="ACI_Paciente">
+          <Key>
+            <PropertyRef Name="idPaciente" />
+          </Key>
+          <Property Name="idPaciente" Type="int" Nullable="false" />
+          <Property Name="idCliente" Type="int" Nullable="false" />
+          <Property Name="nombrePaciente" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="fechaNacimientoPaciente" Type="date" Nullable="false" />
+          <Property Name="edadPaciente" Type="int" Nullable="false" />
+          <Property Name="tipoPaciente" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="razaPaciente" Type="varchar" Nullable="false" MaxLength="50" />
+        </EntityType>
+        <Association Name="FK_ACI_Chip_OrdenAtencion_ACI_Chip">
+          <End Role="ACI_Chip" Type="ACI_Model.Store.ACI_Chip" Multiplicity="1" />
+          <End Role="ACI_Chip_OrdenAtencion" Type="ACI_Model.Store.ACI_Chip_OrdenAtencion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ACI_Chip">
+              <PropertyRef Name="idChip" />
+            </Principal>
+            <Dependent Role="ACI_Chip_OrdenAtencion">
+              <PropertyRef Name="idChip" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ACI_Chip_OrdenAtencion_ACI_OrdenAtencion">
+          <End Role="ACI_OrdenAtencion" Type="ACI_Model.Store.ACI_OrdenAtencion" Multiplicity="1" />
+          <End Role="ACI_Chip_OrdenAtencion" Type="ACI_Model.Store.ACI_Chip_OrdenAtencion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ACI_OrdenAtencion">
+              <PropertyRef Name="idOrdenAtencion" />
+            </Principal>
+            <Dependent Role="ACI_Chip_OrdenAtencion">
+              <PropertyRef Name="idOrdenAtencion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ACI_OrdenAtencion_ACI_Paciente">
+          <End Role="ACI_Paciente" Type="ACI_Model.Store.ACI_Paciente" Multiplicity="1" />
+          <End Role="ACI_OrdenAtencion" Type="ACI_Model.Store.ACI_OrdenAtencion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ACI_Paciente">
+              <PropertyRef Name="idPaciente" />
+            </Principal>
+            <Dependent Role="ACI_OrdenAtencion">
+              <PropertyRef Name="idPaciente" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ACI_Paciente_ACI_Cliente">
+          <End Role="ACI_Cliente" Type="ACI_Model.Store.ACI_Cliente" Multiplicity="1" />
+          <End Role="ACI_Paciente" Type="ACI_Model.Store.ACI_Paciente" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ACI_Cliente">
+              <PropertyRef Name="idCliente" />
+            </Principal>
+            <Dependent Role="ACI_Paciente">
+              <PropertyRef Name="idCliente" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="ACI_Model" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+        <EntityContainer Name="ACI_ModelConection" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="ACI_Chip" EntityType="ACI_Model.ACI_Chip" />
+          <EntitySet Name="ACI_Chip_OrdenAtencion" EntityType="ACI_Model.ACI_Chip_OrdenAtencion" />
+          <EntitySet Name="ACI_Cliente" EntityType="ACI_Model.ACI_Cliente" />
+          <EntitySet Name="ACI_OrdenAtencion" EntityType="ACI_Model.ACI_OrdenAtencion" />
+          <EntitySet Name="ACI_Paciente" EntityType="ACI_Model.ACI_Paciente" />
+          <AssociationSet Name="FK_ACI_Chip_OrdenAtencion_ACI_Chip" Association="ACI_Model.FK_ACI_Chip_OrdenAtencion_ACI_Chip">
+            <End Role="ACI_Chip" EntitySet="ACI_Chip" />
+            <End Role="ACI_Chip_OrdenAtencion" EntitySet="ACI_Chip_OrdenAtencion" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ACI_Chip_OrdenAtencion_ACI_OrdenAtencion" Association="ACI_Model.FK_ACI_Chip_OrdenAtencion_ACI_OrdenAtencion">
+            <End Role="ACI_OrdenAtencion" EntitySet="ACI_OrdenAtencion" />
+            <End Role="ACI_Chip_OrdenAtencion" EntitySet="ACI_Chip_OrdenAtencion" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ACI_Paciente_ACI_Cliente" Association="ACI_Model.FK_ACI_Paciente_ACI_Cliente">
+            <End Role="ACI_Cliente" EntitySet="ACI_Cliente" />
+            <End Role="ACI_Paciente" EntitySet="ACI_Paciente" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ACI_OrdenAtencion_ACI_Paciente" Association="ACI_Model.FK_ACI_OrdenAtencion_ACI_Paciente">
+            <End Role="ACI_Paciente" EntitySet="ACI_Paciente" />
+            <End Role="ACI_OrdenAtencion" EntitySet="ACI_OrdenAtencion" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="ACI_Chip">
+          <Key>
+            <PropertyRef Name="idChip" />
+          </Key>
+          <Property Name="idChip" Type="Int32" Nullable="false" />
+          <Property Name="nombreChip" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="estado" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+          <NavigationProperty Name="ACI_Chip_OrdenAtencion" Relationship="ACI_Model.FK_ACI_Chip_OrdenAtencion_ACI_Chip" FromRole="ACI_Chip" ToRole="ACI_Chip_OrdenAtencion" />
+        </EntityType>
+        <EntityType Name="ACI_Chip_OrdenAtencion">
+          <Key>
+            <PropertyRef Name="idChipOrdenAtencion" />
+          </Key>
+          <Property Name="idChipOrdenAtencion" Type="Int32" Nullable="false" />
+          <Property Name="idOrdenAtencion" Type="Int32" Nullable="false" />
+          <Property Name="idChip" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="ACI_Chip" Relationship="ACI_Model.FK_ACI_Chip_OrdenAtencion_ACI_Chip" FromRole="ACI_Chip_OrdenAtencion" ToRole="ACI_Chip" />
+          <NavigationProperty Name="ACI_OrdenAtencion" Relationship="ACI_Model.FK_ACI_Chip_OrdenAtencion_ACI_OrdenAtencion" FromRole="ACI_Chip_OrdenAtencion" ToRole="ACI_OrdenAtencion" />
+        </EntityType>
+        <EntityType Name="ACI_Cliente">
+          <Key>
+            <PropertyRef Name="idCliente" />
+          </Key>
+          <Property Name="idCliente" Type="Int32" Nullable="false" />
+          <Property Name="nombreCliente" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="apellidoPaternoCliente" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="apellidoMaternoCliente" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="dniCliente" Type="String" Nullable="false" MaxLength="8" Unicode="false" FixedLength="false" />
+          <NavigationProperty Name="ACI_Paciente" Relationship="ACI_Model.FK_ACI_Paciente_ACI_Cliente" FromRole="ACI_Cliente" ToRole="ACI_Paciente" />
+        </EntityType>
+        <EntityType Name="ACI_OrdenAtencion">
+          <Key>
+            <PropertyRef Name="idOrdenAtencion" />
+          </Key>
+          <Property Name="idOrdenAtencion" Type="Int32" Nullable="false" />
+          <Property Name="idPaciente" Type="Int32" Nullable="false" />
+          <Property Name="fechaOrdenAtencion" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="observaciones" Type="String" MaxLength="100" Unicode="false" FixedLength="false" />
+          <Property Name="chipImplantado" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="ACI_Chip_OrdenAtencion" Relationship="ACI_Model.FK_ACI_Chip_OrdenAtencion_ACI_OrdenAtencion" FromRole="ACI_OrdenAtencion" ToRole="ACI_Chip_OrdenAtencion" />
+          <NavigationProperty Name="ACI_Paciente" Relationship="ACI_Model.FK_ACI_OrdenAtencion_ACI_Paciente" FromRole="ACI_OrdenAtencion" ToRole="ACI_Paciente" />
+          <Property Type="String" Name="estadoAtencion" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="motivoImplantacion" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="ACI_Paciente">
+          <Key>
+            <PropertyRef Name="idPaciente" />
+          </Key>
+          <Property Name="idPaciente" Type="Int32" Nullable="false" />
+          <Property Name="idCliente" Type="Int32" Nullable="false" />
+          <Property Name="nombrePaciente" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="fechaNacimientoPaciente" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="tipoPaciente" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="razaPaciente" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
+          <NavigationProperty Name="ACI_Cliente" Relationship="ACI_Model.FK_ACI_Paciente_ACI_Cliente" FromRole="ACI_Paciente" ToRole="ACI_Cliente" />
+          <NavigationProperty Name="ACI_OrdenAtencion" Relationship="ACI_Model.FK_ACI_OrdenAtencion_ACI_Paciente" FromRole="ACI_Paciente" ToRole="ACI_OrdenAtencion" />
+          <Property Type="Int32" Name="edadPaciente" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_ACI_Chip_OrdenAtencion_ACI_Chip">
+          <End Role="ACI_Chip" Type="ACI_Model.ACI_Chip" Multiplicity="1" />
+          <End Role="ACI_Chip_OrdenAtencion" Type="ACI_Model.ACI_Chip_OrdenAtencion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ACI_Chip">
+              <PropertyRef Name="idChip" />
+            </Principal>
+            <Dependent Role="ACI_Chip_OrdenAtencion">
+              <PropertyRef Name="idChip" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ACI_Chip_OrdenAtencion_ACI_OrdenAtencion">
+          <End Role="ACI_OrdenAtencion" Type="ACI_Model.ACI_OrdenAtencion" Multiplicity="1" />
+          <End Role="ACI_Chip_OrdenAtencion" Type="ACI_Model.ACI_Chip_OrdenAtencion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ACI_OrdenAtencion">
+              <PropertyRef Name="idOrdenAtencion" />
+            </Principal>
+            <Dependent Role="ACI_Chip_OrdenAtencion">
+              <PropertyRef Name="idOrdenAtencion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ACI_Paciente_ACI_Cliente">
+          <End Role="ACI_Cliente" Type="ACI_Model.ACI_Cliente" Multiplicity="1" />
+          <End Role="ACI_Paciente" Type="ACI_Model.ACI_Paciente" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ACI_Cliente">
+              <PropertyRef Name="idCliente" />
+            </Principal>
+            <Dependent Role="ACI_Paciente">
+              <PropertyRef Name="idCliente" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ACI_OrdenAtencion_ACI_Paciente">
+          <End Role="ACI_Paciente" Type="ACI_Model.ACI_Paciente" Multiplicity="1" />
+          <End Role="ACI_OrdenAtencion" Type="ACI_Model.ACI_OrdenAtencion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ACI_Paciente">
+              <PropertyRef Name="idPaciente" />
+            </Principal>
+            <Dependent Role="ACI_OrdenAtencion">
+              <PropertyRef Name="idPaciente" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ACI_ModelStoreContainer" CdmEntityContainer="ACI_ModelConection">
+          <EntitySetMapping Name="ACI_Chip">
+            <EntityTypeMapping TypeName="ACI_Model.ACI_Chip">
+              <MappingFragment StoreEntitySet="ACI_Chip">
+                <ScalarProperty Name="idChip" ColumnName="idChip" />
+                <ScalarProperty Name="nombreChip" ColumnName="nombreChip" />
+                <ScalarProperty Name="estado" ColumnName="estado" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ACI_Chip_OrdenAtencion">
+            <EntityTypeMapping TypeName="ACI_Model.ACI_Chip_OrdenAtencion">
+              <MappingFragment StoreEntitySet="ACI_Chip_OrdenAtencion">
+                <ScalarProperty Name="idChipOrdenAtencion" ColumnName="idChipOrdenAtencion" />
+                <ScalarProperty Name="idOrdenAtencion" ColumnName="idOrdenAtencion" />
+                <ScalarProperty Name="idChip" ColumnName="idChip" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ACI_Cliente">
+            <EntityTypeMapping TypeName="ACI_Model.ACI_Cliente">
+              <MappingFragment StoreEntitySet="ACI_Cliente">
+                <ScalarProperty Name="idCliente" ColumnName="idCliente" />
+                <ScalarProperty Name="nombreCliente" ColumnName="nombreCliente" />
+                <ScalarProperty Name="apellidoPaternoCliente" ColumnName="apellidoPaternoCliente" />
+                <ScalarProperty Name="apellidoMaternoCliente" ColumnName="apellidoMaternoCliente" />
+                <ScalarProperty Name="dniCliente" ColumnName="dniCliente" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ACI_OrdenAtencion">
+            <EntityTypeMapping TypeName="ACI_Model.ACI_OrdenAtencion">
+              <MappingFragment StoreEntitySet="ACI_OrdenAtencion">
+                <ScalarProperty Name="motivoImplantacion" ColumnName="motivoImplantacion" />
+                <ScalarProperty Name="estadoAtencion" ColumnName="estadoAtencion" />
+                <ScalarProperty Name="idOrdenAtencion" ColumnName="idOrdenAtencion" />
+                <ScalarProperty Name="idPaciente" ColumnName="idPaciente" />
+                <ScalarProperty Name="fechaOrdenAtencion" ColumnName="fechaOrdenAtencion" />
+                <ScalarProperty Name="observaciones" ColumnName="observaciones" />
+                <ScalarProperty Name="chipImplantado" ColumnName="chipImplantado" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ACI_Paciente">
+            <EntityTypeMapping TypeName="ACI_Model.ACI_Paciente">
+              <MappingFragment StoreEntitySet="ACI_Paciente">
+                <ScalarProperty Name="edadPaciente" ColumnName="edadPaciente" />
+                <ScalarProperty Name="idPaciente" ColumnName="idPaciente" />
+                <ScalarProperty Name="idCliente" ColumnName="idCliente" />
+                <ScalarProperty Name="nombrePaciente" ColumnName="nombrePaciente" />
+                <ScalarProperty Name="fechaNacimientoPaciente" ColumnName="fechaNacimientoPaciente" />
+                <ScalarProperty Name="tipoPaciente" ColumnName="tipoPaciente" />
+                <ScalarProperty Name="razaPaciente" ColumnName="razaPaciente" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2008/10/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

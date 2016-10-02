@@ -1,0 +1,140 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <script src="@Url.Content("~/Scripts/jquery-1.10.2.js")"></script>
+    @*<script src="@Url.Content("~/Scripts/jquery-1.10.2.intellisense.js")"></script>*@
+    <script src="@Url.Content("~/Scripts/jquery.validate.js")"></script>
+    <script src="@Url.Content("~/Scripts/bootstrap.js")"></script>
+    <script src="@Url.Content("~/Scripts/bootstrap.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.js")"></script>
+    <script src="@Url.Content("~/Scripts/bootstrap-select.js")"></script>
+    <script src="@Url.Content("~/Scripts/jquery-ui-1.10.0.custom.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/respond.js")"></script>
+    @*<script src="@Url.Content("~/Scripts/jquery.ui.touch-punch.js")"></script>
+    <script src="@Url.Content("~/Scripts/jquery.cookie.js")"></script>
+    <script src="@Url.Content("~/Scripts/fullcalendar.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/jquery.dataTables.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/excanvas.js")"></script>
+    <script src="@Url.Content("~/Scripts/jquery.flot.js")"></script>
+    <script src="@Url.Content("~/Scripts/jquery.flot.pie.js")"></script>
+    <script src="@Url.Content("~/Scripts/jquery.flot.stack.js")"></script>
+    <script src="@Url.Content("~/Scripts/jquery.flot.resize.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/jquery.chosen.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/jquery.uniform.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/jquery.cleditor.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/jquery.noty.js")"></script>
+    <script src="@Url.Content("~/Scripts/jquery.elfinder.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/jquery.raty.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/jquery.iphone.toggle.js")"></script>
+    <script src="@Url.Content("~/Scripts/jquery.uploadify-3.1.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/jquery.gritter.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/jquery.imagesloaded.js")"></script>
+    <script src="@Url.Content("~/Scripts/jquery.masonry.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/jquery.knob.modified.js")"></script>
+    <script src="@Url.Content("~/Scripts/counter.js")"></script>
+    <script src="@Url.Content("~/Scripts/retina.js")"></script>
+    <script src="@Url.Content("~/Scripts/custom.js")"></script>
+    <script src="@Url.Content("~/Scripts/jquery.dataTables.min.js")"></script>*@
+    @RenderSection("JavaScript", required: false)
+
+    <link href="@Url.Content("~/Content/bootstrap.min.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/bootstrap-responsive.min.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/bootstrap-reset.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/style.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/demo_table.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/style2.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/style-responsive.css")" rel="stylesheet" type="text/css" />
+    @*<link href="http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800&subset=latin,cyrillic-ext,latin-ext" rel="stylesheet" type="text/css" />*@
+    <link href="@Url.Content("~/Content/pages.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/bootstrap-select.css")" rel="stylesheet" type="text/css" />
+    @RenderSection("Styles", false)
+</head>
+<body>
+    <!-- start: Header -->
+    <div class="navbar">
+        <div class="navbar-inner">
+            <div class="container-fluid">
+                <a class="btn btn-navbar" data-toggle="collapse" data-target=".top-nav.nav-collapse,.sidebar-nav.nav-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </a>
+                <a class="brand" href="~/Principal/Index"><span>
+                    <img src="~/Images/logo/logo_veterinaria.jpg" class="img-responsive" id="logo" /></span></a>
+                <!-- start: Header Menu -->
+                <div class="nav-no-collapse header-nav">
+                    <ul class="nav pull-right">
+                        <!-- start: User Dropdown -->
+                        <li class="dropdown">
+                            <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+                                <i class="halflings-icon white user"></i>
+                                <asp:label id="lblUsuario" runat="server" text="lblUsuario"></asp:label>
+                                <span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li class="dropdown-menu-title">
+                                    <span>Account Settings</span>
+                                </li>
+                                <li><a href="#"><i class="halflings-icon user"></i>
+                                    <asp:label id="lblProfile" runat="server" text="lblProfile"></asp:label>
+                                </a></li>
+                                <li><a id="cerrarSesion" href="#"><i class="halflings-icon off"></i>Logout</a></li>
+                            </ul>
+                        </li>
+                        <!-- end: User Dropdown -->
+                    </ul>
+                </div>
+                <!-- end: Header Menu -->
+            </div>
+        </div>
+    </div>
+    <!-- start: Header -->
+
+    <div class="container-fluid-full">
+        <div class="row-fluid">
+            <!-- start: Main Menu -->
+            <div id="sidebar-left" class="span2">
+                <div class="nav-collapse sidebar-nav">
+                    <ul class="nav nav-tabs nav-stacked main-menu">
+                        @*<li><a href="../Index.aspx"><i class="icon-home"></i><span class="hidden-tablet">Inicio</span></a></li>*@
+                        <li>
+                            <a class="dropmenu" href="~/RegistroEscaneo/OrdenAtencion"><i class="icon-folder-close-alt"></i><span class="hidden-tablet">Registrar Resultado de Escaneo</span><span class="label label-warning"></span></a>
+                            <a class="dropmenu" href="~/AsignacionOrdenAtencion/Busqueda"><i class="icon-folder-close-alt"></i><span class="hidden-tablet">Asignar chip a Orden de atención</span><span class="label label-warning"></span></a>
+                        </li>
+                        @*<li>
+                            <a class="dropmenu" href="#"><i class="icon-folder-close-alt"></i><span class="hidden-tablet">Curso </span><span class="label label-warning"> 2 </span></a>
+                           
+                        </li>
+                        <li>
+                            <a class="dropmenu" href="#"><i class="icon-folder-close-alt"></i><span class="hidden-tablet">Malla Curricular </span><span class="label label-warning"> 2 </span></a>
+                           
+                        </li>*@
+                    </ul>
+                </div>
+            </div>
+            <!-- end: Main Menu -->
+            <div id="content" class="span10 background-body">
+                <ul class="breadcrumb">
+                    <li>
+                        <i class="icon-home"></i>
+                        <a href="~/Principal/Index">Inicio</a>
+                    </li>
+
+                </ul>
+                @RenderBody()
+            </div>
+            <!--/.fluid-container-->
+        </div>
+        <!--/#content.span10-->
+    </div>
+
+    <footer>
+        <p>
+            <span style="text-align: left; float: left">© Copyright Administrador de Identificador de Chips 2016 - UPC. Todos los Derechos Reservados.</span>
+        </p>
+    </footer>
+</body>
+</html>

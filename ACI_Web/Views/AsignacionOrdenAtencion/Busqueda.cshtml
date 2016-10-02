@@ -1,0 +1,125 @@
+﻿@model ACI_Web.Models.ViewModels.Chip_OrdenAtencion
+@{
+    ViewBag.Title = "Asignación de Orden Atención";
+    Layout = "~/Views/_Layout.cshtml";
+}
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { id = "onlineform" }))
+{
+    @Html.AntiForgeryToken()
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            $('#btnBuscarOrden').click(function () {
+                $.ajax({
+                    cache: false,
+                    type: "GET",
+                    url: "/AsignacionOrdenAtencion/GetEstadoOrden",
+                    data: { "codOrden": $("#IdOrdenAtencion").val() },
+                    success: function (data) {
+                        $("#spestadoOrden").text(data.responseText);
+                    },
+                    error: function (xhr, ajaxOptions, thrownError) {
+                        document.getElementById('msjMensaje').innerHTML = 'Error al buscar la orden';
+                        $('#myModal').modal({ backdrop: 'static', keyboard: false })
+                    }
+                });
+            });
+
+
+            $('#btnBuscarChip').click(function () {
+                $.ajax({
+                    cache: false,
+                    type: "GET",
+                    url: "/AsignacionOrdenAtencion/GetEstadoChip",
+                    data: { "codChip": $("#IdChip").val() },
+                    success: function (data) {
+                        $('#EstadoChip option[value=' + data.responseText + ']').prop('selected', 'selected');
+                    },
+                    error: function (xhr, ajaxOptions, thrownError) {
+                        document.getElementById('msjMensaje').innerHTML = 'Error al buscar el chip';
+                        $('#myModal').modal({ backdrop: 'static', keyboard: false })
+                    }
+                });
+            });
+
+
+        });
+
+
+
+
+
+
+
+
+
+
+    </script>
+    
+    <fieldset>
+        <div class="panel panel-primary" style="width: 100%">
+            <div class="panel-heading">Orden de Atención</div>
+            <div class="panel-body">
+                <table class="table-bordered" width="100%">
+                    <tr>
+                        <td>
+                            <span class="control-label"><b>Código de Orden: </b></span>
+                            @Html.EditorFor(model => model.IdOrdenAtencion, new { htmlAttributes = new { @class = "form-control" } })
+                            <br />
+                            <input type="button" value="Buscar" id="btnBuscarOrden" class="btn-primary" />
+                            <br />
+                            <b>Estado: </b><span id="spestadoOrden" class="control-label"></span>
+                        </td>
+
+                    </tr>
+                </table>
+            </div>
+            <div class="panel-heading">Chips</div>
+            <div class="panel-body">
+                <table class="table-bordered" width="100%">
+                    <tr>
+                        <td>
+                            <span class="control-label"><b>Código de Chip: </b></span>
+                            @Html.EditorFor(model => model.IdChip, new { htmlAttributes = new { @class = "form-control" } })
+                            <br />
+                            <input type="button" value="Buscar" id="btnBuscarChip" class="btn-primary" />
+                            <br />
+                            @Html.LabelFor(model => model.EstadoChip, "Datos del Chip", htmlAttributes: new { @class = "control-label" })
+                            @Html.DropDownList("EstadoChip", (SelectList)ViewBag.EstadoChip, "-Seleccione-", htmlAttributes: new { @class = "form-control" })
+                            <br />
+                            <input type="button" value="Guardar estado de Chip" id="btnGuardarEstadoChip" class="btn-primary" />
+                            @*<b>Estado: </b><span id="spEstadoChip" class="control-label"></span>*@
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <br />
+            <hr />
+            <div class="btn-group">
+                <input type="button" value="Asignar" id="btnAsignar" class="btn-primary" />
+                <input type="button" value="Cancelar" id="btnSalir" class="btn-primary" />
+            </div>
+
+
+             <div class="modal fade" id="myModal" role="dialog">
+            <div class="modal-dialog modal-sm">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Administrador de Chips</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p id="msjMensaje"></p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" id="btCerrarModal" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </fieldset>
+    
+}

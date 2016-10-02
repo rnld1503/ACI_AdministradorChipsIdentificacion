@@ -1,0 +1,192 @@
+﻿@model ACI_Web.Models.ViewModels.Paciente_Cliente_Orden
+@{
+    ViewBag.Title = "Resultado de Escaneo";
+    Layout = "~/Views/_Layout.cshtml";
+}
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { id = "onlineform" }))
+{
+    @Html.AntiForgeryToken()
+    
+    
+    <script type="text/javascript">        
+        $(document).ready(function () {
+
+            $('#ChipImplantado').change(function () {
+                if ($(this).is(':checked')) {
+                    $('#tdMotivo').show();
+
+                }
+                else {
+                    $('#tdMotivo').hide();
+                }
+            });
+
+
+
+            $('#btnRegistrar').click(function () {
+                var form = $("#onlineform");
+                if (form.valid()) {
+                    $.ajax({
+                        type: 'POST',
+                        url: "/RegistroEscaneo/DetalleOrdenAtencion",
+                        data: form.serialize(),
+                        dataType: 'json',
+                        success: function (response) {
+                            if (response != null && response.success && response.responseText == 'OK') {
+                                document.getElementById('msjMensaje').innerHTML = 'Se grabó la información satisfactoriamente';
+                                $('#btCerrarModal').click(function () {
+                                    window.location.href = '/RegistroEscaneo/OrdenAtencion/';
+                                });
+                                $('#myModal').modal({ backdrop: 'static', keyboard: false })
+                            } else {
+                                document.getElementById('msjMensaje').innerHTML = response.responseText;
+                                $('#myModal').modal({ backdrop: 'static', keyboard: false })
+                            }
+                        }
+                    });
+
+
+                }
+                else {
+                    document.getElementById('msjMensaje').innerHTML = 'Verifique los datos';
+                    $('#myModal').modal({ backdrop: 'static', keyboard: false })
+                }
+            });
+
+
+        });
+
+
+
+
+
+
+
+
+
+
+    </script>
+    
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <fieldset>
+        @Html.HiddenFor(model => model.IdOrdenAtencion, new { id = "hdIdOrdenAtencion" })
+        <div class="panel panel-primary" style="width: 100%">
+            <div class="panel-heading">Orden</div>
+            <div class="panel-body">
+                <table class="table-bordered" width="100%">
+                    <tr>
+                        <td>
+                            <span class="control-label"><b>Código de Orden: </b>@Model.IdOrdenAtencion</span>
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td>
+                            <span class="control-label"><b>Fecha de Registro: </b>@Model.FechaOrdenAtencion.ToString("dd/MM/yyyy") </span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span class="control-label"><b>Estado: </b>@Model.EstadoOrden</span>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="panel-heading">Cliente</div>
+            <div class="panel-body">
+                <table class="table-bordered" width="100%">
+                    <tr>
+                        <td>
+                            <span class="control-label"><b>Código del Cliente: </b>@Model.idCliente</span>
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td>
+                            <span class="control-label"><b>Nombre Cliente: </b>@Model.nombreCliente</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span class="control-label"><b>DNI: </b>@Model.DNICliente</span>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="panel-heading">Paciente</div>
+            <div class="panel-body">
+                <table class="table-bordered" width="100%">
+                    <tr>
+                        <td>
+                            <span class="control-label"><b>Código del Paciente: </b>@Model.IdPaciente</span>
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td>
+                            <span class="control-label"><b>Fecha Nacimiento: </b>@Model.FechaNacimientoPaciente.ToString("dd/MM/yyyy")</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span class="control-label"><b>Tipo: </b>@Model.TipoPaciente</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span class="control-label"><b>Raza: </b>@Model.RazaPaciente</span>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="panel-body">
+                <table class="table-bordered" width="100%">
+                    <tr>
+                        <td>
+                            @Html.LabelFor(model => model.ChipImplantado, "¿Tiene chip implantado?: ", htmlAttributes: new { @class = "control-label", style = "font-weight:Bold" })
+                            @Html.CheckBoxFor(model => (model.ChipImplantado), new { htmlAttributes = new { @class = "form-control" } })
+                        </td>
+                        <td id="tdMotivo" style="display: none">
+                            @Html.LabelFor(model => model.MotivoImplantacion, "Motivo", htmlAttributes: new { @class = "control-label" })
+                            @Html.DropDownList("MotivoImplantacion", (SelectList)ViewBag.MotivoImplantacion, "-Seleccione-", htmlAttributes: new { @class = "form-control" })
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            @Html.LabelFor(model => model.Observaciones, "Observaciones: ", htmlAttributes: new { @class = "control-label", style = "font-weight:Bold" })
+                            @Html.TextAreaFor(model => (model.Observaciones), new { htmlAttributes = new { @class = "form-control", @maxlength = "100" } })
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <br />
+            <br />
+            <div class="btn-group">
+                <input type="button" value="Grabar" id="btnRegistrar" class="btn-primary" />
+                <input type="button" value="Cancelar" id="btnSalir" class="btn-primary" />
+            </div>
+        </div>
+
+        <div class="modal fade" id="myModal" role="dialog">
+            <div class="modal-dialog modal-sm">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Administrador de Chips</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p id="msjMensaje"></p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" id="btCerrarModal" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </fieldset>
+    
+}
