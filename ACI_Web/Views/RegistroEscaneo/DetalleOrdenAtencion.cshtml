@@ -9,7 +9,7 @@
     @Html.AntiForgeryToken()
     
     
-    <script type="text/javascript">        
+    <script type="text/javascript">
         $(document).ready(function () {
 
             $('#ChipImplantado').change(function () {
@@ -25,45 +25,65 @@
 
 
             $('#btnRegistrar').click(function () {
-                var form = $("#onlineform");
-                if (form.valid()) {
-                    $.ajax({
-                        type: 'POST',
-                        url: "/RegistroEscaneo/DetalleOrdenAtencion",
-                        data: form.serialize(),
-                        dataType: 'json',
-                        success: function (response) {
-                            if (response != null && response.success && response.responseText == 'OK') {
-                                document.getElementById('msjMensaje').innerHTML = 'Se grabó la información satisfactoriamente';
-                                $('#btCerrarModal').click(function () {
-                                    window.location.href = '/RegistroEscaneo/OrdenAtencion/';
-                                });
-                                $('#myModal').modal({ backdrop: 'static', keyboard: false })
-                            } else {
-                                document.getElementById('msjMensaje').innerHTML = response.responseText;
-                                $('#myModal').modal({ backdrop: 'static', keyboard: false })
+                if ($("#ChipImplantado").is(':checked')) {
+                    if ($("#MotivoImplantacion").val() == '') {
+                        document.getElementById('msjMensaje').innerHTML = 'Elija un motivo';
+                        $('#myModal').modal({ backdrop: 'static', keyboard: false })
+                        return;
+                    }
+                }
+
+                document.getElementById('msjMensajeQuestion').innerHTML = 'Está seguro de guardar los cambios?';
+                $('#btnSi').click(function () {
+                    $('#myModalQuestion').modal().hide();
+                    var form = $("#onlineform");
+                    if (form.valid()) {
+                        $.ajax({
+                            type: 'POST',
+                            url: "/RegistroEscaneo/DetalleOrdenAtencion",
+                            data: form.serialize(),
+                            dataType: 'json',
+                            success: function (response) {
+                                if (response != null && response.success && response.responseText == 'OK') {
+                                    document.getElementById('msjMensaje').innerHTML = 'Se grabó la información satisfactoriamente';
+                                    $('#btCerrarModal').click(function () {
+                                        window.location.href = '/RegistroEscaneo/OrdenAtencion/';
+                                    });
+                                    $('#myModal').modal({ backdrop: 'static', keyboard: false })
+                                } else {
+                                    document.getElementById('msjMensaje').innerHTML = response.responseText;
+                                    $('#myModal').modal({ backdrop: 'static', keyboard: false })
+                                }
                             }
-                        }
-                    });
+                        });
+                    }
+                    else {
+                        document.getElementById('msjMensaje').innerHTML = 'Verifique los datos';
+                        $('#myModal').modal({ backdrop: 'static', keyboard: false })
+                    }
 
+                });
+                $('#btnNo').click(function () {
+                    $('#myModalQuestion').modal().hide();
+                });
+                $('#myModalQuestion').modal({ backdrop: 'static', keyboard: false })
 
-                }
-                else {
-                    document.getElementById('msjMensaje').innerHTML = 'Verifique los datos';
-                    $('#myModal').modal({ backdrop: 'static', keyboard: false })
-                }
             });
 
 
+
+
+
+
+
+            $('#btnSalir').click(function () {
+                window.location.href = '/RegistroEscaneo/OrdenAtencion/';
+            });
+
+
+
+
         });
-
-
-
-
-
-
-
-
 
 
     </script>
@@ -186,6 +206,26 @@
                 </div>
             </div>
         </div>
+
+
+        <div class="modal fade" id="myModalQuestion" role="dialog">
+            <div class="modal-dialog modal-sm">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Innova School</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p id="msjMensajeQuestion"></p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" id="btnSi" class="btn btn-default" data-dismiss="modal">Si</button>
+                        <button type="button" id="btnNo" class="btn btn-default" data-dismiss="modal">No</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
 
     </fieldset>
     

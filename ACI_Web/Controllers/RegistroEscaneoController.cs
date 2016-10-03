@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Configuration;
 using ACI_Web.Models;
 using ACI_Web.Models.DataAccess;
 using ACI_Web.Models.ViewModels;
@@ -17,11 +18,12 @@ namespace ACI_Web.Controllers
         {
             List<ACI_OrdenAtencion> ordenatencion = new List<ACI_OrdenAtencion>();
             List<Paciente_Cliente> modelo = new List<Paciente_Cliente>();
+            string estado=ConfigurationManager.AppSettings["strEstadoAtencion4"];
             try
             {
                 using (ACI_ModelConection model = new ACI_ModelConection())
                 {
-                    ordenatencion = model.ACI_OrdenAtencion.ToList();
+                    ordenatencion = model.ACI_OrdenAtencion.Where(f => f.estadoAtencion == estado).ToList();
                     foreach (ACI_OrdenAtencion item in ordenatencion)
                     {
                         modelo.Add(
@@ -85,22 +87,22 @@ namespace ACI_Web.Controllers
                 ACI_OrdenAtencion orden = new ACI_OrdenAtencion();
                 using (ACI_ModelConection model = new ACI_ModelConection())
                 {
-                    int codigo=Convert.ToInt32(collection["IdOrdenAtencion"].Trim());
-                    orden = model.ACI_OrdenAtencion.Where(d =>d.idOrdenAtencion == codigo).FirstOrDefault();
+                    int codigo = Convert.ToInt32(collection["IdOrdenAtencion"].Trim());
+                    orden = model.ACI_OrdenAtencion.Where(d => d.idOrdenAtencion == codigo).FirstOrDefault();
 
                     orden.chipImplantado = Convert.ToBoolean(Convert.ToBoolean(collection["ChipImplantado"].Split(',')[0]));
                     if (orden.chipImplantado)
                     {
                         orden.motivoImplantacion = collection["MotivoImplantacion"];
-                        if (orden.motivoImplantacion == "Defectuoso")
-                            orden.estadoAtencion = "Pendiente de implantación";
-                        if (orden.motivoImplantacion == "Actualizar información")
-                            orden.estadoAtencion = "Terminado";
+                        if (orden.motivoImplantacion == ConfigurationManager.AppSettings["strMotivoImplantacion1"])
+                            orden.estadoAtencion = ConfigurationManager.AppSettings["strEstadoAtencion1"];
+                        if (orden.motivoImplantacion == ConfigurationManager.AppSettings["strMotivoImplantacion2"])
+                            orden.estadoAtencion = ConfigurationManager.AppSettings["strEstadoAtencion2"];
                     }
                     else
                     {
                         orden.motivoImplantacion = string.Empty;
-                        orden.estadoAtencion = "Pendiente de implantación";
+                        orden.estadoAtencion = ConfigurationManager.AppSettings["strEstadoAtencion1"];
                     }
 
                     orden.observaciones = collection["Observaciones"];
@@ -124,8 +126,8 @@ namespace ACI_Web.Controllers
             try
             {
                 List<SelectListItem> estados = new List<SelectListItem>();
-                estados.Add(new SelectListItem() { Text = "Defectuoso", Value = "Defectuoso" });
-                estados.Add(new SelectListItem() { Text = "Actualizar información", Value = "Actualizar información" });
+                estados.Add(new SelectListItem() { Text = ConfigurationManager.AppSettings["strMotivoImplantacion1"], Value = ConfigurationManager.AppSettings["strMotivoImplantacion1"] });
+                estados.Add(new SelectListItem() { Text = ConfigurationManager.AppSettings["strMotivoImplantacion2"], Value = ConfigurationManager.AppSettings["strMotivoImplantacion2"] });
 
                 ViewBag.MotivoImplantacion = new SelectList(estados, "Value", "Text", 0);
             }
