@@ -32,7 +32,7 @@ namespace ACI_Web.Controllers
                                 IdOrdenAtencion = item.idOrdenAtencion,
                                 NombrePaciente = item.ACI_Paciente.nombrePaciente,
                                 EdadPaciente = item.ACI_Paciente.edadPaciente,
-                                NombreCliente = item.ACI_Paciente.ACI_Cliente.nombreCliente,
+                                NombreCliente = item.ACI_Paciente.ACI_Cliente.nombreCliente + " " + item.ACI_Paciente.ACI_Cliente.apellidoPaternoCliente + " " + item.ACI_Paciente.ACI_Cliente.apellidoMaternoCliente,
                                 Estado = item.estadoAtencion
                             }
                             );
@@ -63,9 +63,12 @@ namespace ACI_Web.Controllers
                     modelo.FechaOrdenAtencion = ordenatencion.fechaOrdenAtencion;
                     modelo.EstadoOrden = ordenatencion.estadoAtencion;
                     modelo.idCliente = ordenatencion.ACI_Paciente.ACI_Cliente.idCliente;
-                    modelo.nombreCliente = ordenatencion.ACI_Paciente.ACI_Cliente.nombreCliente;
+                    modelo.nombreCliente = ordenatencion.ACI_Paciente.ACI_Cliente.nombreCliente + " " +
+                        ordenatencion.ACI_Paciente.ACI_Cliente.apellidoPaternoCliente + " " + 
+                        ordenatencion.ACI_Paciente.ACI_Cliente.apellidoMaternoCliente;
                     modelo.DNICliente = ordenatencion.ACI_Paciente.ACI_Cliente.dniCliente;
                     modelo.IdPaciente = ordenatencion.ACI_Paciente.idPaciente;
+                    modelo.NombrePaciente = ordenatencion.ACI_Paciente.nombrePaciente;
                     modelo.FechaNacimientoPaciente = ordenatencion.ACI_Paciente.fechaNacimientoPaciente;
                     modelo.TipoPaciente = ordenatencion.ACI_Paciente.tipoPaciente;
                     modelo.RazaPaciente = ordenatencion.ACI_Paciente.razaPaciente;

@@ -42,7 +42,13 @@
                     url: "/AsignacionOrdenAtencion/GetEstadoChip",
                     data: { "codChip": $("#IdChip").val() },
                     success: function (data) {
-                        $('#EstadoChip option[value=' + data.responseText + ']').prop('selected', 'selected');
+                        if (data.success) {
+                            $('#EstadoChip option[value=' + data.responseText + ']').prop('selected', 'selected');
+                        }else {
+                            document.getElementById('msjMensaje').innerHTML = data.responseText;
+                            $('#myModal').modal({ backdrop: 'static', keyboard: false })
+                        }
+                        
                     },
                     error: function (xhr, ajaxOptions, thrownError) {
                         document.getElementById('msjMensaje').innerHTML = 'Error al buscar el chip';
@@ -122,10 +128,11 @@
                         <td>
                             <span class="control-label"><b>Código de Orden: </b></span>
                             @Html.EditorFor(model => model.IdOrdenAtencion, new { htmlAttributes = new { @class = "form-control" } })
-                            <br />
+                            
                             <input type="button" value="Buscar" id="btnBuscarOrden" class="btn-primary" />
-                            <br />
+                            <br /><br />
                             <b>Estado: </b><span id="spestadoOrden" class="control-label"></span>
+                            <br />
                         </td>
 
                     </tr>
@@ -138,10 +145,10 @@
                         <td>
                             <span class="control-label"><b>Código de Chip: </b></span>
                             @Html.EditorFor(model => model.IdChip, new { htmlAttributes = new { @class = "form-control" } })
-                            <br />
+                            
                             <input type="button" value="Buscar" id="btnBuscarChip" class="btn-primary" />
-                            <br />
-                            @Html.LabelFor(model => model.EstadoChip, "Datos del Chip", htmlAttributes: new { @class = "control-label" })
+                            <br /><br />
+                            @Html.LabelFor(model => model.EstadoChip, "Estado del Chip", htmlAttributes: new { @class = "control-label" })
                             @Html.DropDownList("EstadoChip", (SelectList)ViewBag.EstadoChip, "-Seleccione-", htmlAttributes: new { @class = "form-control" })
                             <br />
                             <input type="button" value="Guardar estado de Chip" id="btnGuardarEstadoChip" class="btn-primary" />
@@ -169,7 +176,7 @@
                             <p id="msjMensaje"></p>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" id="btCerrarModal" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                            <button type="button" id="btCerrarModal" class="btn btn-default" data-dismiss="modal">Aceptar</button>
                         </div>
                     </div>
                 </div>
